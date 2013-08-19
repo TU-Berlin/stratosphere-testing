@@ -504,7 +504,7 @@ public abstract class GenericTestPlan<T extends Record, Records extends GenericT
 
 			LocalExecutor.execute(plan);
 		} catch (final Exception e) {
-			Assert.fail("plan scheduling: " + StringUtils.stringifyException(e));
+			Assert.fail("plan scheduling: " + e.getMessage() + "\n" + StringUtils.stringifyException(e));
 		}
 
 		try {

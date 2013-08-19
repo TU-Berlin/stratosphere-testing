@@ -19,9 +19,9 @@ import java.util.List;
 
 import eu.stratosphere.pact.common.contract.FileDataSink;
 import eu.stratosphere.pact.common.contract.GenericDataSink;
-import eu.stratosphere.pact.common.plan.ContractUtil;
 import eu.stratosphere.pact.common.util.Visitor;
 import eu.stratosphere.pact.generic.contract.Contract;
+import eu.stratosphere.pact.generic.contract.ContractUtil;
 
 /**
  * Adds missing {@link DataSourceContract} and {@link DataSinkContract} to an incomplete plan.
