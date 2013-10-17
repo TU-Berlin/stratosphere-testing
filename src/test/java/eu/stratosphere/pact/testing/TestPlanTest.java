@@ -59,6 +59,7 @@ import eu.stratosphere.pact.common.type.base.PactInteger;
 import eu.stratosphere.pact.common.type.base.PactList;
 import eu.stratosphere.pact.common.type.base.PactString;
 import eu.stratosphere.pact.generic.contract.Contract;
+import eu.stratosphere.pact.generic.contract.UserCodeClassWrapper;
 import eu.stratosphere.pact.generic.io.SequentialOutputFormat;
 
 /**
@@ -439,7 +440,7 @@ public class TestPlanTest {
 	 */
 	@Test
 	public void reduceShouldBeSupported() {
-		ReduceContract crossContract = new ReduceContract.Builder(AppendingReduce.class, PactInteger.class, 0)
+		ReduceContract crossContract = ReduceContract.builder(AppendingReduce.class, PactInteger.class, 0)
 			.build();
 
 		TestPlan testPlan = new TestPlan(crossContract);
@@ -594,7 +595,7 @@ public class TestPlanTest {
 		final MapContract tokenize = MapContract.builder(TokenizeLine.class)
 			.name("Map")
 			.build();
-		final ReduceContract summing = new ReduceContract.Builder(CountWords.class, PactString.class, 0)
+		final ReduceContract summing = ReduceContract.builder(CountWords.class, PactString.class, 0)
 			.name("Reduce")
 			.input(tokenize)
 			.build();

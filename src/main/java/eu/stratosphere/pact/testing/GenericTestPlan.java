@@ -541,7 +541,7 @@ public abstract class GenericTestPlan<T extends Record, Records extends GenericT
 		final Collection<GenericDataSink> wrappedSinks = new ArrayList<GenericDataSink>();
 		for (final GenericDataSink fileSink : existingSinks) {
 			// need a format which is deserializable without configuration
-			if (!fileSink.getFormatClass().equals(SequentialOutputFormat.class)) {
+			if (!fileSink.getFormatWrapper().getUserCodeClass().equals(SequentialOutputFormat.class)) {
 				Records expectedValues = this.expectedOutputs.get(fileSink);
 
 				final FileDataSink safeSink = createDefaultSink(fileSink.getName());
@@ -604,10 +604,10 @@ public abstract class GenericTestPlan<T extends Record, Records extends GenericT
 
 		for (GenericDataSource<?> source : this.sources)
 			if (source instanceof FileDataSource)
-				this.getInput(source).load((Class<? extends FileInputFormat>) source.getFormatClass(),
+				this.getInput(source).load((Class<? extends FileInputFormat>) source.getFormatWrapper().getUserCodeClass(),
 					((FileDataSource) source).getFilePath(), source.getParameters());
 			else
-				this.getInput(source).load((Class<? extends GenericInputFormat>) source.getFormatClass(),
+				this.getInput(source).load((Class<? extends GenericInputFormat>) source.getFormatWrapper().getUserCodeClass(),
 					source.getParameters());
 	}
 
@@ -668,7 +668,7 @@ public abstract class GenericTestPlan<T extends Record, Records extends GenericT
 		for (final GenericDataSink sinkContract : this.getDataSinks()) {
 			Records expectedValues = this.expectedOutputs.get(sinkContract);
 			// need a format which is deserializable without configuration
-			if (sinkContract.getFormatClass() == SequentialOutputFormat.class && expectedValues != null
+			if (sinkContract.getFormatWrapper().getUserCodeClass() == SequentialOutputFormat.class && expectedValues != null
 				&& expectedValues.isInitialized()) {
 				final Records actualValues = this.getActualOutput(sinkContract);
 
