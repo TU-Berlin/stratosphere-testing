@@ -400,6 +400,23 @@ public class GenericTestRecords<T extends Record> implements Closeable, Iterable
 	public boolean isInitialized() {
 		return this.isEmpty() || !this.records.isEmpty() || this.inputFormatClass != null;
 	}
+	
+	/**
+	 * Returns an Iterator that iterates through the records as they are provided by the ad hoc expression or the file.
+	 * Note that this iterator is not guaranteed to provide a result that is different from {@link #iterator()}.
+	 * It simply skips the sorting step, it will not shuffle sorted records.
+	 * 
+	 * @return an Iterator that iterates through the records as they are provided by the ad hoc expression or the file.
+	 */
+	public Iterator<T> unsortedIterator() {
+		if (this.isEmpty() || !this.isInitialized())
+			return this.EMPTY_ITERATOR;
+		if (this.isAdhoc())
+			return this.records.iterator();
+		if (this.inputFormatClass != null)
+			return this.getInputFileIterator();
+		return this.EMPTY_ITERATOR;
+	}
 
 	@Override
 	public Iterator<T> iterator() {
